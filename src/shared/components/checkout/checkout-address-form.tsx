@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { AddressInput, ErrorText, WhiteBlock } from "@/shared/components";
 import { FormTextarea } from "../form/form-textarea";

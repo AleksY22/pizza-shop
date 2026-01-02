@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Header } from "@/shared/components/header";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: "Pizza",
@@ -15,7 +16,9 @@ export default function RootLayout({
 }>) {
   return (
     <main className="min-h-screen">
-      <Header hasSearch={true} hasCart={true} />
+      <Suspense>
+        <Header hasSearch={true} hasCart={true} />
+      </Suspense>
       {children}
       {modal}
     </main>
