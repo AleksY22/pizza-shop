@@ -1,0 +1,11 @@
+import { CartItemDto } from "../services/dto/cart.dto";
+
+export const calcCartTotalPrice = (item: CartItemDto) => {
+  const ingredientsPrice = item.ingredients.reduce(
+    (acc, ingredient) => acc + ingredient.price,
+    0
+  );
+  return Number(
+    ((ingredientsPrice + item.productItem.price) * item.quantity).toFixed(2)
+  );
+};
