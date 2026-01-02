@@ -59,10 +59,11 @@ export async function PATCH(
 //============================================================
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  //   { params }: { params: { id: string } }
+  context: AsyncParams
 ) {
   try {
-    const { id } = await params;
+    const { id } = await context.params;
 
     const token = req.cookies.get("cartToken")?.value;
 
