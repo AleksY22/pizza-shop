@@ -1,5 +1,6 @@
 import { Header } from "@/shared/components/header";
 import type { Metadata } from "next";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: "Pizza",
@@ -13,7 +14,9 @@ export default function CheckoutLayout({
 }>) {
   return (
     <main className="min-h-screen bg-[#f4f1ee]">
-      <Header className="border-gray-200" />
+      <Suspense>
+        <Header className="border-gray-200" />
+      </Suspense>
       {children}
     </main>
   );
