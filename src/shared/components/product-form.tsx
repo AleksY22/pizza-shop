@@ -55,7 +55,7 @@ export const ProductForm: React.FC<Props> = ({ product }) => {
     return (
       <ChoosePizzaForm
         onSubmit={onAddProduct}
-        imageUrl={product.imageUrl}
+        imageUrl={product.imageUrl as string | undefined}
         name={product.name}
         ingredients={product.ingredients}
         items={product.items}
@@ -67,7 +67,7 @@ export const ProductForm: React.FC<Props> = ({ product }) => {
   return (
     <ChooseProductForm
       onSubmit={onAddProduct}
-      imageUrl={product.imageUrl}
+      imageUrl={product.imageUrl as string | undefined}
       name={product.name}
       price={firstItem.price}
       loading={loading}
