@@ -6,6 +6,7 @@ import { SuccessOrderTemplate } from "@/shared/components/email-templates/succes
 import prisma from "@/shared/lib/prisma";
 import { sendEmail } from "@/shared/lib/send-email";
 import { CartItemDto } from "@/shared/services/dto/cart.dto";
+import { render } from "@react-email/render";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
@@ -21,7 +22,6 @@ export async function POST(req: NextRequest) {
   try {
     //ответ от yookassa
     const body = (await req.json()) as PaymentCallbackData;
-    console.log(body);
 
     //поиск этого заказа в БД
     const order = await prisma.order.findFirst({
@@ -51,10 +51,14 @@ export async function POST(req: NextRequest) {
     ) as CartItemDto[];
 
     if (isSucceeded) {
+      const html = await render(
+        SuccessOrderTemplate({ orderId: order.id, items })
+      );
+
       await sendEmail(
         order.email,
         "Payment PizzaShop / заказ успешно оформлен",
-        SuccessOrderTemplate({ orderId: order.id, items })
+        html
       );
     } else {
       //Письмо о неуспешной оплате

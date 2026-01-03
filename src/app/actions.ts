@@ -6,12 +6,13 @@ import { OrderStatus } from "@/generated/prisma/enums";
 import { CheckoutFormValues } from "@/shared/components/checkout";
 import { cookies } from "next/headers";
 import { sendEmail } from "@/shared/lib/send-email";
-import { PaymentOrderTemplate } from "@/shared/components/email-templates/payment-order";
+// import { PaymentOrderTemplate } from "@/shared/components/email-templates/payment-order";
 import { createPayment } from "@/shared/lib/create-payment";
 import { Prisma } from "@/generated/prisma/client";
 import { getUserSession } from "@/shared/lib/get-user-session";
 import { hashSync } from "bcrypt";
 import { VerificationUserTemplate } from "@/shared/components/email-templates/verification-user";
+import { render } from "@react-email/render";
 
 //Функция создания платежа============================================
 export async function createOrder(data: CheckoutFormValues) {
@@ -107,16 +108,16 @@ export async function createOrder(data: CheckoutFormValues) {
     const paymentUrl = paymentData.confirmation.confirmation_url;
 
     //Отправка письма на почту
-    await sendEmail(
-      data.email,
-      "Payment PizzaShop",
+    //  await sendEmail(
+    //    data.email,
+    //    "Payment PizzaShop",
 
-      PaymentOrderTemplate({
-        orderId: order.id,
-        totalAmount: order.totalAmount,
-        paymentUrl,
-      })
-    );
+    //    PaymentOrderTemplate({
+    //      orderId: order.id,
+    //      totalAmount: order.totalAmount,
+    //      paymentUrl,
+    //    })
+    //  );
 
     return paymentUrl;
   } catch (error) {
@@ -194,13 +195,17 @@ export async function registerUser(body: Prisma.UserCreateInput) {
       },
     });
 
+    const html = await render(
+      VerificationUserTemplate({
+        code,
+      })
+    );
+
     //Отправка письма с кодом
     await sendEmail(
       createUser.email,
       "Подтверждение регистрации PizzaShop",
-      VerificationUserTemplate({
-        code,
-      })
+      html
     );
   } catch (error) {
     console.log("Error [CREATE_USER]", error);
