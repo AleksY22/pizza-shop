@@ -51,7 +51,7 @@ export const Stories: React.FC<Props> = ({ className }) => {
         <Image
           key={story.id}
           onClick={() => onClickStory(story)}
-          className="w-full h-auto rounded-md cursor-pointer"
+          className="h-auto rounded-md cursor-pointer"
           height={250}
           width={200}
           sizes="100vw"

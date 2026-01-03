@@ -12,6 +12,7 @@ import { ProfileButton } from "./profile-button";
 import { AuthModal } from "./modals";
 import { useRouter, useSearchParams } from "next/navigation";
 import toast from "react-hot-toast";
+import { Button } from "./ui";
 
 interface Props {
   hasSearch?: boolean;
@@ -22,6 +23,9 @@ interface Props {
 export const Header: React.FC<Props> = ({ hasSearch, hasCart, className }) => {
   const router = useRouter();
   const [openAuthModal, setOpenAuthModal] = useState(false);
+
+  //для запуска только на клиенте (дебаг ошибки hydration)
+  const [isClient, setIsClient] = useState(false);
 
   const searchParams = useSearchParams();
 
@@ -44,6 +48,8 @@ export const Header: React.FC<Props> = ({ hasSearch, hasCart, className }) => {
         });
       }, 1000);
     }
+    //=====================(дебаг ошибки hydration)
+    setIsClient(true);
   }, []);
 
   return (
@@ -69,7 +75,13 @@ export const Header: React.FC<Props> = ({ hasSearch, hasCart, className }) => {
             open={openAuthModal}
             onClose={() => setOpenAuthModal(false)}
           />
-          <ProfileButton onClickSignIn={() => setOpenAuthModal(true)} />
+          {/* (дебаг ошибки hydration) */}
+          {isClient ? (
+            <ProfileButton onClickSignIn={() => setOpenAuthModal(true)} />
+          ) : (
+            <Button loading={true} className="flex items-center gap-2 w-30" />
+          )}
+
           {hasCart && <CartButton />}
         </div>
       </Container>
