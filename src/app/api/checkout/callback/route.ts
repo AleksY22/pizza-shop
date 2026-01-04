@@ -68,8 +68,12 @@ export async function POST(req: NextRequest) {
         html
       );
     } else {
-      //Письмо о неуспешной оплате
-      console.log("Оплата не прошла!");
+      //отправка письма клиенту
+      await sendEmail(
+        order.email,
+        "Payment PizzaShop / Заказ не оплачен!",
+        "Оплата не прошла! Возможные проблемы: недостаточно средств, проблемы с платежным сервисом!"
+      );
     }
   } catch (error) {
     console.log("[Checkout Callback] Error:", error);
