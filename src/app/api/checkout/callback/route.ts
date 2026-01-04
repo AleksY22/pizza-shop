@@ -54,9 +54,16 @@ export async function POST(req: NextRequest) {
       const html = await render(
         SuccessOrderTemplate({ orderId: order.id, items })
       );
-
+      //отправка письма клиенту
       await sendEmail(
         order.email,
+        "Payment PizzaShop / заказ успешно оформлен",
+        html
+      );
+
+      //отправка письма продовцу
+      await sendEmail(
+        "i.aleksey.work1@yandex.by",
         "Payment PizzaShop / заказ успешно оформлен",
         html
       );
