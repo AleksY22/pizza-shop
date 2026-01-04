@@ -57,14 +57,14 @@ export async function POST(req: NextRequest) {
       //отправка письма клиенту
       await sendEmail(
         order.email,
-        "Payment PizzaShop / заказ успешно оформлен",
+        "Payment PizzaShop / Заказ успешно оплачен",
         html
       );
 
       //отправка письма продовцу
       await sendEmail(
         "i.aleksey.work1@yandex.by",
-        "Payment PizzaShop / заказ успешно оформлен",
+        "PizzaShop / Заказ оплачен!",
         html
       );
     } else {
